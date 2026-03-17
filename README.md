@@ -32,18 +32,9 @@ This repository accompanies the master’s thesis **“Integrating LLMs with Pro
 ```
 .
 ├─ /src
-│  ├─ data_modeling.py        # Build event log from prepared warehouse movements
-│  └─ task_deployment.py      # Generate LLM-assisted insights from pm4py abstractions
-├─ /config
-│  └─ settings.yaml           # Paths, table names, parameters (thresholds, top-k)
-├─ /prompts
-│  └─ templates/              # RISEN-structured prompt templates for each task
-├─ /outputs
-│  ├─ dfg/                    # Serialized DFGs / summaries
-│  ├─ variants/               # Top/Bottom-k variant summaries
-│  └─ llm/                    # LLM responses (JSON/Markdown)
+│  ├─ 01_data_modeling.ipynb    # Build event log from prepared warehouse movements
+│  └─ 02_task_deployment.ipynb  # Generate LLM-assisted insights from pm4py 
 ├─ requirements.txt
-├─ .env.example               # Azure/OpenAI, storage, catalog settings
 └─ README.md
 ```
 
@@ -55,29 +46,32 @@ This repository accompanies the master’s thesis **“Integrating LLMs with Pro
 
 ### Runtime
 - **Python** ≥ 3.10
-- **OS:** Linux/macOS/Windows
 - **Optional (recommended at scale):** Databricks Runtime or local **PySpark** with Delta support
 
-### Python packages
-- `pm4py`, `pandas`, `numpy`, `matplotlib`, `networkx`
+### Main Python packages
+- `pm4py` (for the Process Mining features, especially the creation of abstractions)
 - `pyspark`, `delta-spark` (if reading Delta tables)
-- `python-dotenv`, `pyyaml`, `tqdm`
-- `azure-ai-inference` or `openai`
+- `openai` (or other LLM service)
+
+### Parameters
+
+Please check the **`Requirements/Parameters`**-section in each script to provide your custom parameters, such as path to input- and output-locations as well as credentials for LLM-service.
 
 ---
 
 ## 📜 Scripts Explained
 
-### `data_modeling.py`
+### `data_modeling.ipynb`
 Transforms curated warehouse tasks into a **fit‑for‑mining event log**.
 
-### `task_deployment.py`
+### `task_deployment.ipynb`
 Runs **pm4py** to produce abstractions and executes **RISEN‑structured prompts** via Azure OpenAI.
 
 ---
 
 ## 🧪 Reproducibility
-- Every run stores versioned artifacts (event logs, abstractions, LLM outputs) in `/outputs/`.
+
+Every run stores artifacts in defined `output` locations. Originally, the deployment is done in Databricks by using the data versioning and governance features of Unity Catalog.
 
 ---
 
